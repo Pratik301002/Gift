@@ -401,23 +401,23 @@
 
     /* Final Message After Meteor Shower */
     .finale-message {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0.8);
-      background: radial-gradient(ellipse at center, rgba(15, 10, 30, 0.98), rgba(0, 0, 0, 1));
-      backdrop-filter: blur(30px);
-      border: 4px solid rgba(255, 215, 0, 0.8);
-      border-radius: 30px;
-      padding: 60px;
-      max-width: 700px;
-      text-align: center;
-      z-index: 10002;
-      opacity: 0;
-      pointer-events: none;
-      transition: all 1.5s cubic-bezier(0.22, 1, 0.36, 1);
-      box-shadow: 0 0 80px rgba(255, 215, 0, 0.6);
-    }
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.8);
+        background: radial-gradient(ellipse at center, rgba(15, 10, 30, 0.98), rgba(0, 0, 0, 1));
+        backdrop-filter: blur(30px);
+        border: 4px solid rgba(255, 215, 0, 0.8);
+        border-radius: 30px;
+        padding: 60px;
+        max-width: 700px;
+        text-align: center;
+        z-index: 10002;
+        opacity: 0;
+        pointer-events: none;
+        transition: all 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+        box-shadow: 0 0 80px rgba(255, 215, 0, 0.6);
+      }
 
     .finale-message.show {
       opacity: 1;
@@ -690,7 +690,7 @@
   </div>
 
   <!-- Finale Message -->
-  <div class="finale-message" id="finaleMessage">
+  <div class="finale-message .show" id="finaleMessage">
     <h2>💫 HRITU 💫</h2>
     <p>Every meteor that fell was a moment
 I fell deeper in love with you.
@@ -1684,22 +1684,28 @@ Together, we're stronger than any storm.`
     
     // Close finale message
     document.addEventListener('DOMContentLoaded', () => {
-      const closeFinaleBtn = document.getElementById('closeFinale');
-      if (closeFinaleBtn) {
-        closeFinaleBtn.addEventListener('mouseenter', () => {
-          cursor.classList.add('hovering');
-        });
-        
-        closeFinaleBtn.addEventListener('mouseleave', () => {
-          cursor.classList.remove('hovering');
-        });
-        
-        closeFinaleBtn.addEventListener('click', () => {
-          finaleMessage.classList.remove('show');
-        });
-      }
-    });
-
+        const closeFinaleBtn = document.getElementById('closeFinale');
+        const finaleMessage = document.getElementById('finaleMessage');
+        const cursor = document.querySelector('.cursor'); // only if you actually have one
+      
+        if (closeFinaleBtn && finaleMessage) {
+      
+          closeFinaleBtn.addEventListener('mouseenter', () => {
+            if (cursor) cursor.classList.add('hovering');
+          });
+      
+          closeFinaleBtn.addEventListener('mouseleave', () => {
+            if (cursor) cursor.classList.remove('hovering');
+          });
+      
+          closeFinaleBtn.addEventListener('click', () => {
+            finaleMessage.classList.remove('show');
+      
+            
+          });
+        }
+      });
+      
     // INTERACTION
     let focusedPlanet = null;
     let hoveredPlanet = null;
@@ -1875,41 +1881,55 @@ Together, we're stronger than any storm.`
     }
 
     function unlockSecretMessage() {
-      const secretCard = document.createElement('div');
-      secretCard.style.cssText = `
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(0.8);
-        background: radial-gradient(ellipse at center, rgba(15, 10, 30, 0.98), rgba(0, 0, 0, 1));
-        backdrop-filter: blur(30px);
-        border: 3px solid rgba(255, 215, 0, 0.6);
-        border-radius: 30px;
-        padding: 60px;
-        max-width: 600px;
-        text-align: center;
-        z-index: 10001;
-        opacity: 0;
-        transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
-        box-shadow: 0 0 60px rgba(255, 215, 0, 0.4);
-      `;
+        const secretCard = document.createElement('div');
       
-      secretCard.innerHTML = `
-        <h2 style="font-family: 'Libre Baskerville', serif; font-size: 2.5rem; color: #ffd700; margin-bottom: 30px; text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);">
-          🌠 SECRET DISCOVERED 🌠
-        </h2>
-        <p style="font-family: 'Crimson Text', serif; font-size: 1.4rem; line-height: 2; color: #ffffff; margin-bottom: 40px;">
-          You found all the shooting stars!<br/><br/>
-          Just like you caught these fleeting moments,<br/>
-          I want to catch every moment with you.<br/><br/>
-          Every wish I make on a star<br/>
-          has always been about you.<br/><br/>
-          You ARE my wish come true. ✨
-        </p>
-        <button id="closeSecret" style="padding: 15px 40px; background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 140, 0, 0.2)); border: 2px solid rgba(255, 215, 0, 0.5); border-radius: 30px; color: #ffd700; font-size: 1.1rem; font-family: 'Libre Baskerville', serif; cursor: pointer; transition: all 0.3s ease;">
-          Forever Grateful 💛
-        </button>
-      `;
+        secretCard.style.cssText = `
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%) scale(0.8);
+          background: radial-gradient(ellipse at center, rgba(15, 10, 30, 0.98), rgba(0, 0, 0, 1));
+          backdrop-filter: blur(30px);
+          border: 3px solid rgba(255, 215, 0, 0.6);
+          border-radius: 30px;
+          padding: 60px;
+          max-width: 600px;
+          text-align: center;
+          z-index: 10001;
+          opacity: 0;
+          transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
+          box-shadow: 0 0 60px rgba(255, 215, 0, 0.4);
+        `;
+      
+        secretCard.innerHTML = `
+          <h2 style="font-family: 'Libre Baskerville', serif; font-size: 2.5rem; color: #ffd700; margin-bottom: 30px; text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);">
+            🌠 SECRET DISCOVERED 🌠
+          </h2>
+      
+          <p style="font-family: 'Crimson Text', serif; font-size: 1.4rem; line-height: 2; color: #ffffff; margin-bottom: 40px;">
+            You found all the shooting stars!<br/><br/>
+            Just like you caught these fleeting moments,<br/>
+            I want to catch every moment with you.<br/><br/>
+            Every wish I make on a star<br/>
+            has always been about you.<br/><br/>
+            You ARE my wish come true. ✨
+          </p>
+      
+          <button id="closeSecret"
+            style="
+              padding: 15px 40px;
+              background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 140, 0, 0.2));
+              border: 2px solid rgba(255, 215, 0, 0.5);
+              border-radius: 30px;
+              color: #ffd700;
+              font-size: 1.1rem;
+              font-family: 'Libre Baskerville', serif;
+              cursor: pointer;
+              transition: all 0.3s ease;
+            ">
+            Forever Grateful 💛
+          </button>
+        `;
       
       document.body.appendChild(secretCard);
       
