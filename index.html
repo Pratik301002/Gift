@@ -1,0 +1,1577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Solar System of Emotions</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Libre+Baskerville:wght@400;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Crimson Text', serif;
+      background: #000000;
+      color: #ffffff;
+      overflow: hidden;
+      cursor: none;
+    }
+
+    /* Custom Cursor */
+    #cursor {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 10000;
+      transition: transform 0.15s ease, border-color 0.3s ease;
+      mix-blend-mode: difference;
+    }
+
+    #cursor.hovering {
+      transform: scale(2);
+      border-color: rgba(255, 200, 100, 0.8);
+    }
+
+    /* Pages */
+    .page {
+      position: fixed;
+      inset: 0;
+      display: none;
+      opacity: 0;
+      transition: opacity 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .page.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    /* LANDING PAGE */
+    #landing {
+      background: radial-gradient(ellipse at center, #0a0520 0%, #000000 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stars-bg {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        radial-gradient(2px 2px at 20% 30%, white, transparent),
+        radial-gradient(2px 2px at 60% 70%, white, transparent),
+        radial-gradient(1px 1px at 50% 50%, white, transparent),
+        radial-gradient(1px 1px at 80% 10%, white, transparent),
+        radial-gradient(2px 2px at 90% 60%, white, transparent),
+        radial-gradient(1px 1px at 33% 80%, white, transparent);
+      background-size: 200% 200%;
+      animation: starsFloat 60s linear infinite;
+      opacity: 0.6;
+    }
+
+    @keyframes starsFloat {
+      0% { background-position: 0% 0%; }
+      100% { background-position: 100% 100%; }
+    }
+
+    .landing-inner {
+      margin: auto;
+      text-align: center;
+      padding: 40px;
+      max-width: 720px;
+      position: relative;
+      z-index: 2;
+      animation: landingFadeIn 2s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    @keyframes landingFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .landing-inner h1 {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 4.5rem;
+      font-weight: 400;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #ffd700, #ff8c00, #ff6b9d);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: 2px;
+      animation: titleGlow 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes titleGlow {
+      from {
+        filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.3));
+      }
+      to {
+        filter: drop-shadow(0 0 40px rgba(255, 140, 0, 0.5));
+      }
+    }
+
+    .landing-inner p {
+      font-size: 1.4rem;
+      line-height: 2;
+      opacity: 0.9;
+      margin-bottom: 35px;
+      font-style: italic;
+    }
+
+    .instruction {
+      display: inline-block;
+      padding: 12px 28px;
+      background: rgba(255, 215, 0, 0.08);
+      border: 1px solid rgba(255, 215, 0, 0.25);
+      border-radius: 25px;
+      font-size: 1.05rem;
+      color: #ffd700;
+      margin-bottom: 40px;
+      font-style: normal;
+      letter-spacing: 0.5px;
+      animation: instructionPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes instructionPulse {
+      0%, 100% { transform: translateY(0); opacity: 0.85; }
+      50% { transform: translateY(-3px); opacity: 1; }
+    }
+
+    #enter {
+      padding: 18px 48px;
+      border-radius: 50px;
+      border: 2px solid rgba(255, 215, 0, 0.5);
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 140, 0, 0.1));
+      backdrop-filter: blur(10px);
+      color: #ffd700;
+      font-size: 1.2rem;
+      font-family: 'Libre Baskerville', serif;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    #enter::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 140, 0, 0.2));
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    #enter:hover::before {
+      opacity: 1;
+    }
+
+    #enter:hover {
+      transform: scale(1.05);
+      border-color: rgba(255, 215, 0, 0.8);
+      box-shadow: 0 10px 40px rgba(255, 215, 0, 0.3);
+    }
+
+    /* SPACE PAGE */
+    #spacePage {
+      background: transparent;
+    }
+
+    #space {
+      position: fixed;
+      inset: 0;
+      display: block;
+    }
+
+    /* Enhanced UI Overlay */
+    .space-ui {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .system-info {
+      position: absolute;
+      top: 30px;
+      left: 30px;
+      background: rgba(10, 5, 30, 0.7);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      border-radius: 15px;
+      padding: 20px 25px;
+      max-width: 320px;
+    }
+
+    .system-info h3 {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 1.3rem;
+      color: #ffd700;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+
+    .system-info p {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      opacity: 0.85;
+      margin-bottom: 15px;
+    }
+
+    .planet-counter {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      color: #ffd700;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255, 215, 0, 0.15);
+    }
+
+    .counter-dots {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .counter-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .counter-dot.discovered {
+      background: #ffd700;
+      box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+    }
+
+    .controls-guide {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(10, 5, 30, 0.7);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      border-radius: 15px;
+      padding: 15px 30px;
+      display: flex;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .control-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    .control-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: rgba(255, 215, 0, 0.15);
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      color: #ffd700;
+    }
+
+    .legend {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      background: rgba(10, 5, 30, 0.7);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      border-radius: 15px;
+      padding: 20px;
+      max-width: 250px;
+    }
+
+    .legend h4 {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 1.1rem;
+      color: #ffd700;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+      font-size: 0.85rem;
+    }
+
+    .legend-color {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      box-shadow: 0 0 10px currentColor;
+    }
+
+    .hint {
+      position: fixed;
+      bottom: 110px;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0.6;
+      font-size: 1.1rem;
+      font-style: italic;
+      animation: hintPulse 2s ease-in-out infinite;
+      z-index: 10;
+      text-align: center;
+    }
+
+    @keyframes hintPulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 0.8; }
+    }
+
+    /* MESSAGE CARD */
+    #card {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at center, rgba(15, 10, 30, 0.95), rgba(0, 0, 0, 0.98));
+      backdrop-filter: blur(30px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 50px;
+      text-align: center;
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.9);
+      transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    #card.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1);
+    }
+
+    #card h2 {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 3.2rem;
+      margin-bottom: 30px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      animation: cardTitleFloat 3s ease-in-out infinite;
+    }
+
+    @keyframes cardTitleFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    #card p {
+      max-width: 560px;
+      font-size: 1.35rem;
+      line-height: 2.2;
+      white-space: pre-line;
+      opacity: 0.95;
+    }
+
+    #close {
+      position: absolute;
+      top: 40px;
+      right: 40px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      color: white;
+      font-size: 1.8rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    #close:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.5);
+      transform: rotate(90deg);
+    }
+
+    /* Final Message */
+    .final-unlock {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, rgba(255, 215, 0, 0.2), transparent);
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease;
+    }
+
+    .final-unlock.show {
+      opacity: 1;
+      animation: finalPulse 2s ease-in-out;
+    }
+
+    @keyframes finalPulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); }
+      50% { transform: translate(-50%, -50%) scale(1.1); }
+    }
+
+    .final-unlock h3 {
+      font-size: 2rem;
+      color: #ffd700;
+      margin-bottom: 15px;
+    }
+
+    /* Navigation Help Panel */
+    .nav-help {
+      position: fixed;
+      top: 50%;
+      right: -350px;
+      transform: translateY(-50%);
+      width: 320px;
+      background: rgba(10, 5, 30, 0.95);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      border-radius: 15px;
+      padding: 20px;
+      transition: right 0.4s ease;
+      z-index: 50;
+    }
+
+    .nav-help.show {
+      right: 30px;
+    }
+
+    .nav-help h4 {
+      font-family: 'Libre Baskerville', serif;
+      color: #ffd700;
+      margin-bottom: 15px;
+      font-size: 1.2rem;
+    }
+
+    .nav-help-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+      font-size: 0.9rem;
+    }
+
+    .nav-help-item:last-child {
+      border-bottom: none;
+    }
+
+    .nav-key {
+      background: rgba(255, 215, 0, 0.15);
+      padding: 4px 10px;
+      border-radius: 5px;
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      font-family: monospace;
+      color: #ffd700;
+      font-weight: bold;
+    }
+
+    .help-toggle {
+      position: fixed;
+      top: 50%;
+      right: 30px;
+      transform: translateY(-50%);
+      width: 45px;
+      height: 45px;
+      background: rgba(10, 5, 30, 0.7);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      border-radius: 50%;
+      color: #ffd700;
+      font-size: 1.3rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      z-index: 51;
+    }
+
+    .help-toggle:hover {
+      background: rgba(255, 215, 0, 0.15);
+      border-color: rgba(255, 215, 0, 0.6);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .landing-inner h1 { font-size: 3rem; }
+      .landing-inner p { font-size: 1.1rem; }
+      #card h2 { font-size: 2.2rem; }
+      #card p { font-size: 1.1rem; }
+      .system-info, .legend { max-width: 250px; font-size: 0.85rem; }
+      .controls-guide { flex-direction: column; gap: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Custom Cursor -->
+  <div id="cursor"></div>
+
+  <!-- LANDING -->
+  <section id="landing" class="page active">
+    <div class="stars-bg"></div>
+    <div class="landing-inner">
+      <h1>My Solar System</h1>
+      <p>
+        I've created a universe just for you.<br />
+        Eight planets, each holding a piece of my heart,<br />
+        orbiting around the warmth of everything I feel.
+      </p>
+      <div class="instruction">
+        ✨ Click on each planet to discover the emotions within
+      </div>
+      <button id="enter">Enter the System</button>
+    </div>
+  </section>
+
+  <!-- SPACE -->
+  <section id="spacePage" class="page">
+    <canvas id="space"></canvas>
+    
+    <!-- Enhanced UI Overlay -->
+    <div class="space-ui">
+      <!-- System Information -->
+      <div class="system-info">
+        <h3>3D Emotional Universe</h3>
+        <p>Navigate freely through space and explore each planet's unique emotional message. Rotate, zoom, and pan to discover all perspectives.</p>
+        <div class="planet-counter">
+          <span>Discovered:</span>
+          <div class="counter-dots" id="counterDots"></div>
+        </div>
+      </div>
+
+      <!-- Legend -->
+      <div class="legend">
+        <h4>Emotions Map</h4>
+        <div class="legend-item">
+          <div class="legend-color" style="background: #ffeb3b; color: #ffeb3b;"></div>
+          <span>Happy</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background: #64b5f6; color: #64b5f6;"></div>
+          <span>Calm</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background: #ff6f00; color: #ff6f00;"></div>
+          <span>Excited</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background: #f48fb1; color: #f48fb1;"></div>
+          <span>Romantic</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background: #9575cd; color: #9575cd;"></div>
+          <span>Anxious</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background: #26c6da; color: #26c6da;"></div>
+          <span>Creative</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background: #66bb6a; color: #66bb6a;"></div>
+          <span>Grateful</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background: #ef5350; color: #ef5350;"></div>
+          <span>Overwhelmed</span>
+        </div>
+      </div>
+
+      <!-- Controls Guide -->
+      <div class="controls-guide">
+        <div class="control-item">
+          <div class="control-icon">🖱️</div>
+          <span>Click + Drag to Rotate</span>
+        </div>
+        <div class="control-item">
+          <div class="control-icon">🔍</div>
+          <span>Scroll to Zoom</span>
+        </div>
+        <div class="control-item">
+          <div class="control-icon">✋</div>
+          <span>Right-Click + Drag to Pan</span>
+        </div>
+        <div class="control-item">
+          <div class="control-icon">👆</div>
+          <span>Click Planets to Explore</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="hint">Navigate freely in 3D space • Discover all emotions</p>
+
+    <!-- Navigation Help Panel -->
+    <button class="help-toggle" id="helpToggle">?</button>
+    <div class="nav-help" id="navHelp">
+      <h4>Navigation Controls</h4>
+      <div class="nav-help-item">
+        <span>Rotate View</span>
+        <div class="nav-key">Click + Drag</div>
+      </div>
+      <div class="nav-help-item">
+        <span>Zoom In/Out</span>
+        <div class="nav-key">Scroll</div>
+      </div>
+      <div class="nav-help-item">
+        <span>Pan View</span>
+        <div class="nav-key">Right-Click + Drag</div>
+      </div>
+      <div class="nav-help-item">
+        <span>Move Forward</span>
+        <div class="nav-key">W</div>
+      </div>
+      <div class="nav-help-item">
+        <span>Move Backward</span>
+        <div class="nav-key">S</div>
+      </div>
+      <div class="nav-help-item">
+        <span>Move Left</span>
+        <div class="nav-key">A</div>
+      </div>
+      <div class="nav-help-item">
+        <span>Move Right</span>
+        <div class="nav-key">D</div>
+      </div>
+      <div class="nav-help-item">
+        <span>Move Up</span>
+        <div class="nav-key">Q</div>
+      </div>
+      <div class="nav-help-item">
+        <span>Move Down</span>
+        <div class="nav-key">E</div>
+      </div>
+      <div class="nav-help-item">
+        <span>Reset View</span>
+        <div class="nav-key">R</div>
+      </div>
+      <div class="nav-help-item">
+        <span>Auto-Rotate</span>
+        <div class="nav-key">SPACE</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MESSAGE CARD -->
+  <div id="card">
+    <button id="close">✕</button>
+    <h2 id="cardTitle"></h2>
+    <p id="cardText"></p>
+  </div>
+
+  <!-- Final Unlock Message -->
+  <div class="final-unlock" id="finalUnlock">
+    <h3>✨ All Planets Discovered ✨</h3>
+    <p>The Sun now glows brighter, just for you</p>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script>
+    // Custom Cursor
+    const cursor = document.getElementById('cursor');
+    let mouseX = 0, mouseY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    function animateCursor() {
+      cursor.style.left = mouseX + 'px';
+      cursor.style.top = mouseY + 'px';
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    // Initialize counter dots
+    const counterDotsContainer = document.getElementById('counterDots');
+    for (let i = 0; i < 8; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'counter-dot';
+      dot.id = `dot-${i}`;
+      counterDotsContainer.appendChild(dot);
+    }
+
+    // Page Transition
+    const landing = document.getElementById("landing");
+    const spacePage = document.getElementById("spacePage");
+    const enterBtn = document.getElementById("enter");
+
+    enterBtn.addEventListener("mouseenter", () => cursor.classList.add("hovering"));
+    enterBtn.addEventListener("mouseleave", () => cursor.classList.remove("hovering"));
+
+    enterBtn.addEventListener("click", () => {
+      landing.classList.remove("active");
+      setTimeout(() => spacePage.classList.add("active"), 100);
+    });
+
+    // THREE.JS SETUP
+    const canvas = document.getElementById("space");
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x000000);
+    scene.fog = new THREE.Fog(0x000000, 10, 80);
+
+    const camera = new THREE.PerspectiveCamera(
+      50,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      1000
+    );
+    camera.position.set(0, 15, 45);
+
+    const renderer = new THREE.WebGLRenderer({
+      canvas,
+      antialias: true,
+      alpha: true
+    });
+
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    // ORBIT CONTROLS - Enable 3D Navigation
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true; // Smooth movement
+    controls.dampingFactor = 0.05;
+    controls.screenSpacePanning = false;
+    controls.minDistance = 10; // Closest zoom
+    controls.maxDistance = 150; // Farthest zoom
+    controls.maxPolarAngle = Math.PI; // Allow viewing from any angle
+    controls.enablePan = true; // Allow panning
+    controls.panSpeed = 0.8;
+    controls.rotateSpeed = 0.6;
+    controls.zoomSpeed = 1.2;
+    
+    // Optional: Set auto-rotate for a gentle spin when idle
+    controls.autoRotate = false; // User can enable this if they want
+    controls.autoRotateSpeed = 0.5;
+
+    // LIGHTING
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.15);
+    scene.add(ambientLight);
+
+    const sunLight = new THREE.PointLight(0xffa500, 3, 100);
+    sunLight.position.set(0, 0, 0);
+    sunLight.castShadow = true;
+    sunLight.shadow.mapSize.width = 2048;
+    sunLight.shadow.mapSize.height = 2048;
+    scene.add(sunLight);
+
+    // ENHANCED STARFIELD - More stars for background
+    function createStarfield() {
+      const geometry = new THREE.BufferGeometry();
+      const vertices = [];
+      const colors = [];
+      const sizes = [];
+
+      for (let i = 0; i < 12000; i++) {
+        const x = (Math.random() - 0.5) * 500;
+        const y = (Math.random() - 0.5) * 500;
+        const z = (Math.random() - 0.5) * 500;
+        vertices.push(x, y, z);
+
+        const color = new THREE.Color();
+        const colorType = Math.random();
+        if (colorType < 0.7) {
+          // White-ish stars
+          color.setHSL(0.6, 0.1, Math.random() * 0.3 + 0.7);
+        } else if (colorType < 0.85) {
+          // Blue stars
+          color.setHSL(0.6, 0.4, Math.random() * 0.4 + 0.5);
+        } else {
+          // Yellow-orange stars
+          color.setHSL(0.1, 0.5, Math.random() * 0.4 + 0.5);
+        }
+        colors.push(color.r, color.g, color.b);
+        
+        // Vary star sizes
+        sizes.push(Math.random() * 0.3 + 0.1);
+      }
+
+      geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+      geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+      geometry.setAttribute('size', new THREE.Float32BufferAttribute(sizes, 1));
+
+      const material = new THREE.PointsMaterial({
+        size: 0.2,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.9,
+        blending: THREE.AdditiveBlending,
+        sizeAttenuation: true
+      });
+
+      return new THREE.Points(geometry, material);
+    }
+
+    const starfield = createStarfield();
+    scene.add(starfield);
+
+    // ENHANCED MILKY WAY GALAXY - More realistic and visible
+    function createMilkyWay() {
+      const geometry = new THREE.BufferGeometry();
+      const vertices = [];
+      const colors = [];
+      const sizes = [];
+
+      // Create a disk-shaped galaxy with spiral arms
+      for (let i = 0; i < 25000; i++) {
+        // Spiral galaxy shape with multiple arms
+        const angle = Math.random() * Math.PI * 2;
+        const armOffset = Math.floor(Math.random() * 4) * (Math.PI * 2 / 4);
+        const radius = Math.pow(Math.random(), 0.5) * 180 + 40;
+        const spiral = angle + armOffset + radius * 0.03;
+        
+        // Add some randomness to create cloud-like appearance
+        const spreadX = (Math.random() - 0.5) * (100 - radius * 0.3);
+        const spreadZ = (Math.random() - 0.5) * (100 - radius * 0.3);
+        
+        const x = Math.cos(spiral) * radius + spreadX;
+        const y = (Math.random() - 0.5) * (20 - radius * 0.08); // Thinner at edges
+        const z = Math.sin(spiral) * radius + spreadZ;
+        
+        vertices.push(x, y, z);
+
+        // More diverse galaxy colors
+        const color = new THREE.Color();
+        const colorChoice = Math.random();
+        const distFromCenter = radius / 180;
+        
+        if (colorChoice < 0.25) {
+          // Deep blue (outer regions)
+          color.setHSL(0.6, 0.6, Math.random() * 0.3 + 0.3 + distFromCenter * 0.1);
+        } else if (colorChoice < 0.5) {
+          // Purple-pink
+          color.setHSL(0.75, 0.5, Math.random() * 0.3 + 0.35);
+        } else if (colorChoice < 0.75) {
+          // White-cyan (bright regions)
+          color.setHSL(0.55, 0.2, Math.random() * 0.4 + 0.5);
+        } else {
+          // Golden-yellow (core regions)
+          color.setHSL(0.15, 0.4, Math.random() * 0.3 + 0.4);
+        }
+        colors.push(color.r, color.g, color.b);
+
+        // Vary star sizes - brighter in center
+        const sizeVariation = Math.random() * 0.6 + 0.2;
+        sizes.push(sizeVariation * (1 - distFromCenter * 0.5));
+      }
+
+      geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+      geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+      geometry.setAttribute('size', new THREE.Float32BufferAttribute(sizes, 1));
+
+      const material = new THREE.PointsMaterial({
+        size: 0.4,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.7,
+        blending: THREE.AdditiveBlending,
+        sizeAttenuation: true
+      });
+
+      const milkyWay = new THREE.Points(geometry, material);
+      milkyWay.rotation.x = Math.PI / 5; // Tilt the galaxy
+      milkyWay.rotation.z = Math.PI / 8; // Slight roll
+      return milkyWay;
+    }
+
+    const milkyWay = createMilkyWay();
+    scene.add(milkyWay);
+
+    // Add distant nebula clouds for depth
+    function createNebulaClouds() {
+      const geometry = new THREE.BufferGeometry();
+      const vertices = [];
+      const colors = [];
+      const sizes = [];
+
+      for (let i = 0; i < 3000; i++) {
+        // Distribute around the galaxy
+        const angle = Math.random() * Math.PI * 2;
+        const radius = Math.random() * 200 + 100;
+        
+        const x = Math.cos(angle) * radius + (Math.random() - 0.5) * 80;
+        const y = (Math.random() - 0.5) * 150;
+        const z = Math.sin(angle) * radius + (Math.random() - 0.5) * 80;
+        
+        vertices.push(x, y, z);
+
+        const color = new THREE.Color();
+        const colorType = Math.random();
+        if (colorType < 0.4) {
+          color.setHSL(0.6, 0.7, 0.3); // Blue nebula
+        } else if (colorType < 0.7) {
+          color.setHSL(0.85, 0.6, 0.35); // Purple nebula
+        } else {
+          color.setHSL(0.0, 0.7, 0.3); // Red nebula
+        }
+        colors.push(color.r, color.g, color.b);
+        sizes.push(Math.random() * 2.5 + 1.5);
+      }
+
+      geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+      geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+      geometry.setAttribute('size', new THREE.Float32BufferAttribute(sizes, 1));
+
+      const material = new THREE.PointsMaterial({
+        size: 3.0,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.15,
+        blending: THREE.AdditiveBlending,
+        sizeAttenuation: true
+      });
+
+      return new THREE.Points(geometry, material);
+    }
+
+    const nebulaClouds = createNebulaClouds();
+    scene.add(nebulaClouds);
+
+    // SUN - Realistic and clean
+    const sunGeometry = new THREE.SphereGeometry(4.5, 128, 128);
+    
+    // Create procedural sun texture
+    function createSunTexture() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 512;
+      canvas.height = 512;
+      const ctx = canvas.getContext('2d');
+      
+      // Base gradient
+      const gradient = ctx.createRadialGradient(256, 256, 0, 256, 256, 256);
+      gradient.addColorStop(0, '#fff4e6');
+      gradient.addColorStop(0.3, '#ffcc00');
+      gradient.addColorStop(0.6, '#ff8c00');
+      gradient.addColorStop(1, '#ff4500');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, 512, 512);
+      
+      // Add solar flares and texture
+      for (let i = 0; i < 200; i++) {
+        const x = Math.random() * 512;
+        const y = Math.random() * 512;
+        const size = Math.random() * 30 + 10;
+        const opacity = Math.random() * 0.3 + 0.1;
+        
+        const flareGradient = ctx.createRadialGradient(x, y, 0, x, y, size);
+        flareGradient.addColorStop(0, `rgba(255, 255, 200, ${opacity})`);
+        flareGradient.addColorStop(0.5, `rgba(255, 200, 100, ${opacity * 0.5})`);
+        flareGradient.addColorStop(1, 'rgba(255, 140, 0, 0)');
+        
+        ctx.fillStyle = flareGradient;
+        ctx.fillRect(x - size, y - size, size * 2, size * 2);
+      }
+      
+      return new THREE.CanvasTexture(canvas);
+    }
+    
+    const sunMaterial = new THREE.MeshStandardMaterial({
+      color: 0xffaa00,
+      emissive: 0xff6600,
+      emissiveIntensity: 2.0,
+      emissiveMap: createSunTexture(),
+      roughness: 1.0,
+      metalness: 0
+    });
+
+    const sun = new THREE.Mesh(sunGeometry, sunMaterial);
+    sun.castShadow = false;
+    sun.receiveShadow = false;
+    
+    // Add sun to userData for click detection
+    sun.userData = {
+      name: "SUN",
+      isSun: true,
+      text: `HRITU,
+
+You are the center of my universe,
+the warmth that lights up every corner of my existence.
+
+Everything I am orbits around the love I have for you.
+
+I LOVE YOU ❤️`
+    };
+    
+    scene.add(sun);
+
+    // Single realistic glow layer
+    const glowGeometry = new THREE.SphereGeometry(5.5, 64, 64);
+    const glowMaterial = new THREE.ShaderMaterial({
+      uniforms: {
+        glowColor: { value: new THREE.Color(0xffaa00) },
+        intensity: { value: 0.8 }
+      },
+      vertexShader: `
+        varying vec3 vNormal;
+        void main() {
+          vNormal = normalize(normalMatrix * normal);
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform vec3 glowColor;
+        uniform float intensity;
+        varying vec3 vNormal;
+        void main() {
+          float brightness = pow(0.6 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 2.5);
+          gl_FragColor = vec4(glowColor, 1.0) * brightness * intensity;
+        }
+      `,
+      side: THREE.BackSide,
+      blending: THREE.AdditiveBlending,
+      transparent: true
+    });
+    const sunGlow = new THREE.Mesh(glowGeometry, glowMaterial);
+    sun.add(sunGlow);
+
+    // PLANET DATA
+    const planetData = [
+      {
+        name: "HAPPY",
+        color: 0xffeb3b,
+        emissive: 0xffc107,
+        size: 0.8,
+        distance: 8,
+        speed: 0.8,
+        text: `When you are happy,
+the whole universe brightens.
+
+Your joy is contagious,
+your laughter echoes through galaxies.
+
+I love existing in the same orbit as your happiness.`
+      },
+      {
+        name: "CALM",
+        color: 0x64b5f6,
+        emissive: 0x2196f3,
+        size: 0.9,
+        distance: 11,
+        speed: 0.65,
+        text: `With you, everything slows down.
+
+You are my peaceful orbit,
+the center where chaos fades.
+
+In your presence, I find stillness
+that the universe envies.`
+      },
+      {
+        name: "EXCITED",
+        color: 0xff6f00,
+        emissive: 0xff5722,
+        size: 0.75,
+        distance: 14,
+        speed: 1.2,
+        text: `Your excitement is magnetic,
+pulling in stardust and possibility.
+
+When you're thrilled, the cosmos dances,
+and I can't help but spin faster too.
+
+Energy like yours lights up worlds.`
+      },
+      {
+        name: "ROMANTIC",
+        color: 0xf48fb1,
+        emissive: 0xe91e63,
+        size: 1.0,
+        distance: 17,
+        speed: 0.5,
+        text: `I would find you in every galaxy,
+across infinite timelines.
+
+Love is the gravity that keeps me
+forever drawn to you.
+
+You are my celestial constant.`
+      },
+      {
+        name: "ANXIOUS",
+        color: 0x9575cd,
+        emissive: 0x673ab7,
+        size: 0.7,
+        distance: 20,
+        speed: 0.9,
+        text: `When worry storms through you,
+remember you're not adrift.
+
+I'm here, a steady moon,
+reflecting light even in darkness.
+
+Together, we weather any turbulence.`
+      },
+      {
+        name: "CREATIVE",
+        color: 0x26c6da,
+        emissive: 0x00bcd4,
+        size: 0.85,
+        distance: 23,
+        speed: 0.7,
+        text: `Your imagination builds universes,
+paints nebulas with possibility.
+
+Every idea you birth
+adds color to existence.
+
+Create freely—I'm in awe of your cosmos.`
+      },
+      {
+        name: "GRATEFUL",
+        color: 0x66bb6a,
+        emissive: 0x4caf50,
+        size: 0.8,
+        distance: 26,
+        speed: 0.6,
+        text: `Gratitude is the light you carry,
+warming every space you enter.
+
+Thank you for sharing your orbit,
+for letting me witness your wonder.
+
+I'm grateful the universe brought us here.`
+      },
+      {
+        name: "OVERWHELMED",
+        color: 0xef5350,
+        emissive: 0xf44336,
+        size: 0.9,
+        distance: 29,
+        speed: 0.55,
+        text: `If the weight of worlds feels too heavy,
+let me share the load.
+
+You don't have to carry everything alone.
+Rest in this orbit—you're safe here.
+
+Together, we're stronger than any storm.`
+      }
+    ];
+
+    // CREATE PLANETS
+    const planets = [];
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+
+    function createPlanetLabel(text) {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = 512;
+      canvas.height = 128;
+
+      // Enhanced background with glow
+      ctx.fillStyle = "rgba(0, 0, 0, 0.85)";
+      ctx.shadowColor = "rgba(0, 0, 0, 0.9)";
+      ctx.shadowBlur = 20;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Add border
+      ctx.strokeStyle = "rgba(255, 215, 0, 0.4)";
+      ctx.lineWidth = 3;
+      ctx.strokeRect(5, 5, canvas.width - 10, canvas.height - 10);
+
+      // Reset shadow for text
+      ctx.shadowColor = "rgba(255, 255, 255, 0.8)";
+      ctx.shadowBlur = 15;
+
+      // Main text
+      ctx.font = "bold 48px 'Libre Baskerville', serif";
+      ctx.fillStyle = "#ffffff";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+
+      // Add golden outline to text
+      ctx.strokeStyle = "#ffd700";
+      ctx.lineWidth = 2;
+      ctx.strokeText(text, canvas.width / 2, canvas.height / 2);
+
+      const texture = new THREE.CanvasTexture(canvas);
+      const spriteMaterial = new THREE.SpriteMaterial({
+        map: texture,
+        transparent: true,
+        opacity: 0.95,
+        depthTest: false, // Always render on top
+        depthWrite: false
+      });
+
+      const sprite = new THREE.Sprite(spriteMaterial);
+      sprite.scale.set(5, 1.25, 1);
+      sprite.position.set(0, 2.5, 0);
+      sprite.renderOrder = 1000; // Render last, on top of everything
+
+      return sprite;
+    }
+
+    planetData.forEach((data, index) => {
+      const geometry = new THREE.SphereGeometry(data.size, 64, 64);
+      const material = new THREE.MeshStandardMaterial({
+        color: data.color,
+        emissive: data.emissive,
+        emissiveIntensity: 0.4,
+        roughness: 0.6,
+        metalness: 0.3
+      });
+
+      const planet = new THREE.Mesh(geometry, material);
+      planet.castShadow = true;
+      planet.receiveShadow = true;
+
+      planet.userData = {
+        ...data,
+        index: index,
+        angle: (Math.PI * 2 / planetData.length) * index,
+        baseY: Math.sin(index * 0.5) * 2,
+        opened: false,
+        isHovered: false
+      };
+
+      // Planet Atmosphere Glow - Enhanced
+      const atmosphereGeometry = new THREE.SphereGeometry(data.size * 1.15, 64, 64);
+      const atmosphereMaterial = new THREE.MeshBasicMaterial({
+        color: data.color,
+        transparent: true,
+        opacity: 0.2,
+        side: THREE.BackSide
+      });
+      const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
+      planet.add(atmosphere);
+      planet.userData.atmosphere = atmosphere;
+
+      // Outer glow ring for hover effect
+      const ringGeometry = new THREE.SphereGeometry(data.size * 1.3, 64, 64);
+      const ringMaterial = new THREE.MeshBasicMaterial({
+        color: data.color,
+        transparent: true,
+        opacity: 0,
+        side: THREE.BackSide
+      });
+      const ring = new THREE.Mesh(ringGeometry, ringMaterial);
+      planet.add(ring);
+      planet.userData.ring = ring;
+
+      planet.add(createPlanetLabel(data.name));
+      planets.push(planet);
+      scene.add(planet);
+    });
+
+    // INTERACTION
+    let focusedPlanet = null;
+    let hoveredPlanet = null;
+    let openedCount = 0;
+    const card = document.getElementById("card");
+    const cardTitle = document.getElementById("cardTitle");
+    const cardText = document.getElementById("cardText");
+    const closeBtn = document.getElementById("close");
+    const finalUnlock = document.getElementById("finalUnlock");
+
+    function handleClick(event) {
+      if (card.classList.contains("active")) return;
+
+      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+      raycaster.setFromCamera(mouse, camera);
+      
+      // Check for sun and planets
+      const allClickables = [sun, ...planets];
+      const intersects = raycaster.intersectObjects(allClickables, false);
+
+      if (intersects.length > 0) {
+        focusedPlanet = intersects[0].object;
+        const data = focusedPlanet.userData;
+
+        cardTitle.textContent = data.name;
+        cardText.textContent = data.text;
+        
+        // Special styling for sun
+        if (data.isSun) {
+          cardTitle.style.color = '#ffa500';
+        } else {
+          cardTitle.style.color = `#${new THREE.Color(data.color).getHexString()}`;
+        }
+
+        if (!data.opened && !data.isSun) {
+          data.opened = true;
+          openedCount++;
+          
+          // Update counter dot
+          const dot = document.getElementById(`dot-${data.index}`);
+          if (dot) {
+            dot.classList.add('discovered');
+          }
+
+          if (openedCount === planetData.length) {
+            setTimeout(() => {
+              finalUnlock.classList.add('show');
+              // Enhance sun glow
+              sunGlow.material.uniforms.intensity.value *= 1.5;
+              setTimeout(() => finalUnlock.classList.remove('show'), 3000);
+            }, 1000);
+          }
+        }
+
+        card.classList.add("active");
+        cursor.classList.remove("hovering");
+      }
+    }
+
+    canvas.addEventListener("click", handleClick);
+
+    closeBtn.addEventListener("mouseenter", () => cursor.classList.add("hovering"));
+    closeBtn.addEventListener("mouseleave", () => cursor.classList.remove("hovering"));
+
+    closeBtn.addEventListener("click", () => {
+      focusedPlanet = null;
+      card.classList.remove("active");
+    });
+
+    // Enhanced Hover effect
+    canvas.addEventListener("mousemove", (event) => {
+      if (card.classList.contains("active")) return;
+
+      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+      raycaster.setFromCamera(mouse, camera);
+      
+      // Check for sun and planets
+      const allClickables = [sun, ...planets];
+      const intersects = raycaster.intersectObjects(allClickables, false);
+
+      // Reset previous hovered planet
+      if (hoveredPlanet && (intersects.length === 0 || intersects[0].object !== hoveredPlanet)) {
+        hoveredPlanet.userData.isHovered = false;
+        hoveredPlanet = null;
+      }
+
+      if (intersects.length > 0) {
+        hoveredPlanet = intersects[0].object;
+        hoveredPlanet.userData.isHovered = true;
+        cursor.classList.add("hovering");
+        document.body.style.cursor = 'pointer';
+      } else {
+        cursor.classList.remove("hovering");
+        document.body.style.cursor = 'none';
+      }
+    });
+
+    // ANIMATION LOOP
+    let time = 0;
+
+    function animate() {
+      requestAnimationFrame(animate);
+      time += 0.01;
+
+      // Update controls for smooth damping
+      controls.update();
+
+      // Rotate sun slowly
+      sun.rotation.y += 0.001;
+      
+      // Subtle pulsing effect for sun glow
+      const basePulse = Math.sin(time * 0.5) * 0.05;
+      sunGlow.material.uniforms.intensity.value = 0.8 + basePulse;
+      
+      // Sun hover effect
+      if (sun.userData.isHovered) {
+        const targetIntensity = 1.2;
+        sunGlow.material.uniforms.intensity.value += (targetIntensity - sunGlow.material.uniforms.intensity.value) * 0.1;
+      }
+
+      // Rotate starfield very slowly
+      starfield.rotation.y += 0.00005;
+      starfield.rotation.x += 0.00002;
+      
+      // Rotate Milky Way galaxy slowly
+      milkyWay.rotation.z += 0.00015;
+      
+      // Slowly rotate nebula clouds
+      nebulaClouds.rotation.y -= 0.0001;
+      nebulaClouds.rotation.z += 0.00008;
+
+      // Update planets
+      planets.forEach((planet, index) => {
+        const data = planet.userData;
+
+        // Orbital motion
+        data.angle += data.speed * 0.001;
+        planet.position.x = Math.cos(data.angle) * data.distance;
+        planet.position.z = Math.sin(data.angle) * data.distance;
+        planet.position.y = data.baseY + Math.sin(time * 0.5 + index) * 0.5;
+
+        // Rotate planet
+        planet.rotation.y += 0.005;
+
+        // Enhanced scale and glow for hovered or focused planets
+        const isActive = planet === focusedPlanet || data.isHovered;
+        const targetScale = isActive ? 1.5 : 1;
+        
+        planet.scale.lerp(
+          new THREE.Vector3(targetScale, targetScale, targetScale),
+          0.1
+        );
+
+        // Emissive intensity
+        const targetIntensity = planet === focusedPlanet ? 1.5 : (data.isHovered ? 1.0 : 0.4);
+        planet.material.emissiveIntensity += (targetIntensity - planet.material.emissiveIntensity) * 0.1;
+
+        // Atmosphere glow on hover
+        if (data.atmosphere) {
+          const targetAtmosphereOpacity = data.isHovered ? 0.5 : 0.2;
+          data.atmosphere.material.opacity += (targetAtmosphereOpacity - data.atmosphere.material.opacity) * 0.1;
+        }
+
+        // Outer ring glow on hover
+        if (data.ring) {
+          const targetRingOpacity = data.isHovered ? 0.4 : 0;
+          data.ring.material.opacity += (targetRingOpacity - data.ring.material.opacity) * 0.1;
+        }
+      });
+
+      renderer.render(scene, camera);
+    }
+
+    animate();
+
+    // KEYBOARD CONTROLS for additional navigation
+    document.addEventListener('keydown', (e) => {
+      const moveSpeed = 2;
+      switch(e.key.toLowerCase()) {
+        case 'w': // Move forward
+          camera.position.z -= moveSpeed;
+          break;
+        case 's': // Move backward
+          camera.position.z += moveSpeed;
+          break;
+        case 'a': // Move left
+          camera.position.x -= moveSpeed;
+          break;
+        case 'd': // Move right
+          camera.position.x += moveSpeed;
+          break;
+        case 'q': // Move up
+          camera.position.y += moveSpeed;
+          break;
+        case 'e': // Move down
+          camera.position.y -= moveSpeed;
+          break;
+        case 'r': // Reset view
+          camera.position.set(0, 15, 45);
+          controls.target.set(0, 0, 0);
+          controls.update();
+          break;
+        case ' ': // Toggle auto-rotate
+          e.preventDefault();
+          controls.autoRotate = !controls.autoRotate;
+          break;
+      }
+    });
+
+    // Add reset view button
+    const resetButton = document.createElement('button');
+    resetButton.innerHTML = '🔄 Reset View';
+    resetButton.style.cssText = `
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      padding: 12px 24px;
+      background: rgba(10, 5, 30, 0.7);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      border-radius: 25px;
+      color: #ffd700;
+      font-size: 0.95rem;
+      font-family: 'Crimson Text', serif;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 10;
+    `;
+    resetButton.onmouseover = () => {
+      resetButton.style.background = 'rgba(255, 215, 0, 0.15)';
+      resetButton.style.borderColor = 'rgba(255, 215, 0, 0.6)';
+      resetButton.style.transform = 'scale(1.05)';
+      cursor.classList.add('hovering');
+    };
+    resetButton.onmouseleave = () => {
+      resetButton.style.background = 'rgba(10, 5, 30, 0.7)';
+      resetButton.style.borderColor = 'rgba(255, 215, 0, 0.3)';
+      resetButton.style.transform = 'scale(1)';
+      cursor.classList.remove('hovering');
+    };
+    resetButton.onclick = () => {
+      camera.position.set(0, 15, 45);
+      controls.target.set(0, 0, 0);
+      controls.update();
+    };
+    document.getElementById('spacePage').appendChild(resetButton);
+
+    // Toggle help panel
+    const helpToggle = document.getElementById('helpToggle');
+    const navHelp = document.getElementById('navHelp');
+    let helpVisible = false;
+
+    helpToggle.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
+    helpToggle.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
+
+    helpToggle.addEventListener('click', () => {
+      helpVisible = !helpVisible;
+      if (helpVisible) {
+        navHelp.classList.add('show');
+        helpToggle.innerHTML = '✕';
+      } else {
+        navHelp.classList.remove('show');
+        helpToggle.innerHTML = '?';
+      }
+    });
+
+    // RESIZE
+    window.addEventListener("resize", () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+</body>
+</html>
