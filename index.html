@@ -176,160 +176,6 @@
       display: block;
     }
 
-    /* Enhanced UI Overlay */
-    .space-ui {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 5;
-    }
-
-    .system-info {
-      position: absolute;
-      top: 30px;
-      left: 30px;
-      background: rgba(10, 5, 30, 0.7);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 215, 0, 0.2);
-      border-radius: 15px;
-      padding: 20px 25px;
-      max-width: 320px;
-    }
-
-    .system-info h3 {
-      font-family: 'Libre Baskerville', serif;
-      font-size: 1.3rem;
-      color: #ffd700;
-      margin-bottom: 12px;
-      letter-spacing: 1px;
-    }
-
-    .system-info p {
-      font-size: 0.95rem;
-      line-height: 1.6;
-      opacity: 0.85;
-      margin-bottom: 15px;
-    }
-
-    .planet-counter {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.9rem;
-      color: #ffd700;
-      padding-top: 10px;
-      border-top: 1px solid rgba(255, 215, 0, 0.15);
-    }
-
-    .counter-dots {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-
-    .counter-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.2);
-      border: 1px solid rgba(255, 215, 0, 0.3);
-      transition: all 0.3s ease;
-    }
-
-    .counter-dot.discovered {
-      background: #ffd700;
-      box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
-    }
-
-    .controls-guide {
-      position: absolute;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(10, 5, 30, 0.7);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 215, 0, 0.2);
-      border-radius: 15px;
-      padding: 15px 30px;
-      display: flex;
-      gap: 30px;
-      align-items: center;
-    }
-
-    .control-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.9rem;
-      opacity: 0.8;
-    }
-
-    .control-icon {
-      width: 28px;
-      height: 28px;
-      border-radius: 8px;
-      background: rgba(255, 215, 0, 0.15);
-      border: 1px solid rgba(255, 215, 0, 0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.85rem;
-      color: #ffd700;
-    }
-
-    .legend {
-      position: absolute;
-      top: 30px;
-      right: 30px;
-      background: rgba(10, 5, 30, 0.7);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 215, 0, 0.2);
-      border-radius: 15px;
-      padding: 20px;
-      max-width: 250px;
-    }
-
-    .legend h4 {
-      font-family: 'Libre Baskerville', serif;
-      font-size: 1.1rem;
-      color: #ffd700;
-      margin-bottom: 12px;
-      letter-spacing: 1px;
-    }
-
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 8px;
-      font-size: 0.85rem;
-    }
-
-    .legend-color {
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      box-shadow: 0 0 10px currentColor;
-    }
-
-    .hint {
-      position: fixed;
-      bottom: 110px;
-      left: 50%;
-      transform: translateX(-50%);
-      opacity: 0.6;
-      font-size: 1.1rem;
-      font-style: italic;
-      animation: hintPulse 2s ease-in-out infinite;
-      z-index: 10;
-      text-align: center;
-    }
-
-    @keyframes hintPulse {
-      0%, 100% { opacity: 0.4; }
-      50% { opacity: 0.8; }
-    }
-
     /* MESSAGE CARD */
     #card {
       position: fixed;
@@ -433,83 +279,6 @@
       margin-bottom: 15px;
     }
 
-    /* Navigation Help Panel */
-    .nav-help {
-      position: fixed;
-      top: 50%;
-      right: -350px;
-      transform: translateY(-50%);
-      width: 320px;
-      background: rgba(10, 5, 30, 0.95);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 215, 0, 0.3);
-      border-radius: 15px;
-      padding: 20px;
-      transition: right 0.4s ease;
-      z-index: 50;
-    }
-
-    .nav-help.show {
-      right: 30px;
-    }
-
-    .nav-help h4 {
-      font-family: 'Libre Baskerville', serif;
-      color: #ffd700;
-      margin-bottom: 15px;
-      font-size: 1.2rem;
-    }
-
-    .nav-help-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 8px 0;
-      border-bottom: 1px solid rgba(255, 215, 0, 0.1);
-      font-size: 0.9rem;
-    }
-
-    .nav-help-item:last-child {
-      border-bottom: none;
-    }
-
-    .nav-key {
-      background: rgba(255, 215, 0, 0.15);
-      padding: 4px 10px;
-      border-radius: 5px;
-      border: 1px solid rgba(255, 215, 0, 0.3);
-      font-family: monospace;
-      color: #ffd700;
-      font-weight: bold;
-    }
-
-    .help-toggle {
-      position: fixed;
-      top: 50%;
-      right: 30px;
-      transform: translateY(-50%);
-      width: 45px;
-      height: 45px;
-      background: rgba(10, 5, 30, 0.7);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 215, 0, 0.3);
-      border-radius: 50%;
-      color: #ffd700;
-      font-size: 1.3rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-      z-index: 51;
-    }
-
-    .help-toggle:hover {
-      background: rgba(255, 215, 0, 0.15);
-      border-color: rgba(255, 215, 0, 0.6);
-      transform: translateY(-50%) scale(1.1);
-    }
-
     /* Responsive */
     @media (max-width: 768px) {
       body {
@@ -552,74 +321,6 @@
         height: 40px;
         font-size: 1.4rem;
       }
-      
-      .system-info, .legend { 
-        max-width: 200px; 
-        font-size: 0.75rem;
-        padding: 15px;
-        top: 15px;
-      }
-      
-      .system-info {
-        left: 15px;
-      }
-      
-      .legend {
-        right: 15px;
-      }
-      
-      .system-info h3,
-      .legend h4 {
-        font-size: 0.95rem;
-        margin-bottom: 8px;
-      }
-      
-      .controls-guide { 
-        flex-direction: column; 
-        gap: 8px;
-        padding: 10px 20px;
-        bottom: 15px;
-        font-size: 0.75rem;
-      }
-      
-      .control-item {
-        font-size: 0.75rem;
-      }
-      
-      .control-icon {
-        width: 24px;
-        height: 24px;
-        font-size: 0.75rem;
-      }
-      
-      .hint {
-        font-size: 0.9rem;
-        bottom: 90px;
-        padding: 0 20px;
-      }
-      
-      .help-toggle {
-        top: auto;
-        bottom: 15px;
-        right: 15px;
-        transform: none;
-        width: 40px;
-        height: 40px;
-      }
-      
-      .help-toggle:hover {
-        transform: scale(1.1);
-      }
-      
-      .nav-help {
-        width: 280px;
-        font-size: 0.85rem;
-        padding: 15px;
-      }
-      
-      .nav-help.show {
-        right: 15px;
-      }
     }
   </style>
 </head>
@@ -648,125 +349,15 @@
     
     <!-- Enhanced UI Overlay -->
     <div class="space-ui">
-      <!-- System Information -->
-      <div class="system-info">
-        <h3>3D Emotional Universe</h3>
-        <p>Navigate freely through space and explore each planet's unique emotional message. Rotate, zoom, and pan to discover all perspectives.</p>
-        <div class="planet-counter">
-          <span>Discovered:</span>
-          <div class="counter-dots" id="counterDots"></div>
-        </div>
-      </div>
 
-      <!-- Legend -->
-      <div class="legend">
-        <h4>Emotions Map</h4>
-        <div class="legend-item">
-          <div class="legend-color" style="background: #ffeb3b; color: #ffeb3b;"></div>
-          <span>Happy</span>
-        </div>
-        <div class="legend-item">
-          <div class="legend-color" style="background: #64b5f6; color: #64b5f6;"></div>
-          <span>Calm</span>
-        </div>
-        <div class="legend-item">
-          <div class="legend-color" style="background: #ff6f00; color: #ff6f00;"></div>
-          <span>Excited</span>
-        </div>
-        <div class="legend-item">
-          <div class="legend-color" style="background: #f48fb1; color: #f48fb1;"></div>
-          <span>Romantic</span>
-        </div>
-        <div class="legend-item">
-          <div class="legend-color" style="background: #9575cd; color: #9575cd;"></div>
-          <span>Anxious</span>
-        </div>
-        <div class="legend-item">
-          <div class="legend-color" style="background: #26c6da; color: #26c6da;"></div>
-          <span>Creative</span>
-        </div>
-        <div class="legend-item">
-          <div class="legend-color" style="background: #66bb6a; color: #66bb6a;"></div>
-          <span>Grateful</span>
-        </div>
-        <div class="legend-item">
-          <div class="legend-color" style="background: #ef5350; color: #ef5350;"></div>
-          <span>Overwhelmed</span>
-        </div>
-      </div>
 
-      <!-- Controls Guide -->
-      <div class="controls-guide">
-        <div class="control-item">
-          <div class="control-icon">🖱️</div>
-          <span>Click + Drag to Rotate</span>
-        </div>
-        <div class="control-item">
-          <div class="control-icon">🔍</div>
-          <span>Scroll to Zoom</span>
-        </div>
-        <div class="control-item">
-          <div class="control-icon">✋</div>
-          <span>Right-Click + Drag to Pan</span>
-        </div>
-        <div class="control-item">
-          <div class="control-icon">👆</div>
-          <span>Click Planets to Explore</span>
-        </div>
-      </div>
+
+
+
     </div>
 
-    <p class="hint">Navigate freely in 3D space • Discover all emotions</p>
 
-    <!-- Navigation Help Panel -->
-    <button class="help-toggle" id="helpToggle">?</button>
-    <div class="nav-help" id="navHelp">
-      <h4>Navigation Controls</h4>
-      <div class="nav-help-item">
-        <span>Rotate View</span>
-        <div class="nav-key">Click + Drag</div>
-      </div>
-      <div class="nav-help-item">
-        <span>Zoom In/Out</span>
-        <div class="nav-key">Scroll</div>
-      </div>
-      <div class="nav-help-item">
-        <span>Pan View</span>
-        <div class="nav-key">Right-Click + Drag</div>
-      </div>
-      <div class="nav-help-item">
-        <span>Move Forward</span>
-        <div class="nav-key">W</div>
-      </div>
-      <div class="nav-help-item">
-        <span>Move Backward</span>
-        <div class="nav-key">S</div>
-      </div>
-      <div class="nav-help-item">
-        <span>Move Left</span>
-        <div class="nav-key">A</div>
-      </div>
-      <div class="nav-help-item">
-        <span>Move Right</span>
-        <div class="nav-key">D</div>
-      </div>
-      <div class="nav-help-item">
-        <span>Move Up</span>
-        <div class="nav-key">Q</div>
-      </div>
-      <div class="nav-help-item">
-        <span>Move Down</span>
-        <div class="nav-key">E</div>
-      </div>
-      <div class="nav-help-item">
-        <span>Reset View</span>
-        <div class="nav-key">R</div>
-      </div>
-      <div class="nav-help-item">
-        <span>Auto-Rotate</span>
-        <div class="nav-key">SPACE</div>
-      </div>
-    </div>
+
   </section>
 
   <!-- MESSAGE CARD -->
@@ -800,15 +391,6 @@
       requestAnimationFrame(animateCursor);
     }
     animateCursor();
-
-    // Initialize counter dots
-    const counterDotsContainer = document.getElementById('counterDots');
-    for (let i = 0; i < 8; i++) {
-      const dot = document.createElement('div');
-      dot.className = 'counter-dot';
-      dot.id = `dot-${i}`;
-      counterDotsContainer.appendChild(dot);
-    }
 
     // Page Transition
     const landing = document.getElementById("landing");
@@ -1415,12 +997,6 @@ Together, we're stronger than any storm.`
         if (!data.opened && !data.isSun) {
           data.opened = true;
           openedCount++;
-          
-          // Update counter dot
-          const dot = document.getElementById(`dot-${data.index}`);
-          if (dot) {
-            dot.classList.add('discovered');
-          }
 
           if (openedCount === planetData.length) {
             setTimeout(() => {
@@ -1438,6 +1014,55 @@ Together, we're stronger than any storm.`
     }
 
     canvas.addEventListener("click", handleClick);
+    
+    // Add touch support for mobile
+    canvas.addEventListener("touchstart", (event) => {
+      if (card.classList.contains("active")) return;
+      
+      // Prevent default to avoid double-firing
+      event.preventDefault();
+      
+      const touch = event.touches[0];
+      mouse.x = (touch.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(touch.clientY / window.innerHeight) * 2 + 1;
+
+      raycaster.setFromCamera(mouse, camera);
+      
+      // Check for sun and planets
+      const allClickables = [sun, ...planets];
+      const intersects = raycaster.intersectObjects(allClickables, false);
+
+      if (intersects.length > 0) {
+        focusedPlanet = intersects[0].object;
+        const data = focusedPlanet.userData;
+
+        cardTitle.textContent = data.name;
+        cardText.textContent = data.text;
+        
+        // Special styling for sun
+        if (data.isSun) {
+          cardTitle.style.color = '#ffa500';
+        } else {
+          cardTitle.style.color = `#${new THREE.Color(data.color).getHexString()}`;
+        }
+
+        if (!data.opened && !data.isSun) {
+          data.opened = true;
+          openedCount++;
+
+          if (openedCount === planetData.length) {
+            setTimeout(() => {
+              finalUnlock.classList.add('show');
+              // Enhance sun glow
+              sunGlow.material.uniforms.intensity.value *= 1.5;
+              setTimeout(() => finalUnlock.classList.remove('show'), 3000);
+            }, 1000);
+          }
+        }
+
+        card.classList.add("active");
+      }
+    }, { passive: false });
 
     closeBtn.addEventListener("mouseenter", () => cursor.classList.add("hovering"));
     closeBtn.addEventListener("mouseleave", () => cursor.classList.remove("hovering"));
@@ -1446,6 +1071,13 @@ Together, we're stronger than any storm.`
       focusedPlanet = null;
       card.classList.remove("active");
     });
+    
+    // Add touch support for close button
+    closeBtn.addEventListener("touchstart", (event) => {
+      event.preventDefault();
+      focusedPlanet = null;
+      card.classList.remove("active");
+    }, { passive: false });
 
     // Enhanced Hover effect
     canvas.addEventListener("mousemove", (event) => {
@@ -1626,25 +1258,6 @@ Together, we're stronger than any storm.`
       controls.update();
     };
     document.getElementById('spacePage').appendChild(resetButton);
-
-    // Toggle help panel
-    const helpToggle = document.getElementById('helpToggle');
-    const navHelp = document.getElementById('navHelp');
-    let helpVisible = false;
-
-    helpToggle.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
-    helpToggle.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
-
-    helpToggle.addEventListener('click', () => {
-      helpVisible = !helpVisible;
-      if (helpVisible) {
-        navHelp.classList.add('show');
-        helpToggle.innerHTML = '✕';
-      } else {
-        navHelp.classList.remove('show');
-        helpToggle.innerHTML = '?';
-      }
-    });
 
     // RESIZE
     window.addEventListener("resize", () => {
