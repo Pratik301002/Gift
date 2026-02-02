@@ -776,7 +776,223 @@ I LOVE YOU ❤️`
     const sunGlow = new THREE.Mesh(glowGeometry, glowMaterial);
     sun.add(sunGlow);
 
-    // PLANET DATA
+    // CREATE REALISTIC PLANET TEXTURES
+    function createPlanetTexture(color, type) {
+      const canvas = document.createElement('canvas');
+      canvas.width = 512;
+      canvas.height = 512;
+      const ctx = canvas.getContext('2d');
+      
+      // Base color
+      const baseColor = new THREE.Color(color);
+      ctx.fillStyle = `rgb(${baseColor.r * 255}, ${baseColor.g * 255}, ${baseColor.b * 255})`;
+      ctx.fillRect(0, 0, 512, 512);
+      
+      // Add surface details based on planet type
+      if (type === 'rocky') {
+        // Rocky terrain with craters
+        for (let i = 0; i < 150; i++) {
+          const x = Math.random() * 512;
+          const y = Math.random() * 512;
+          const size = Math.random() * 20 + 5;
+          const darkness = Math.random() * 0.3;
+          
+          const gradient = ctx.createRadialGradient(x, y, 0, x, y, size);
+          gradient.addColorStop(0, `rgba(0, 0, 0, ${darkness})`);
+          gradient.addColorStop(0.7, `rgba(0, 0, 0, ${darkness * 0.3})`);
+          gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+          
+          ctx.fillStyle = gradient;
+          ctx.fillRect(x - size, y - size, size * 2, size * 2);
+        }
+        
+        // Add some lighter spots (mountains/highlands)
+        for (let i = 0; i < 80; i++) {
+          const x = Math.random() * 512;
+          const y = Math.random() * 512;
+          const size = Math.random() * 15 + 3;
+          const brightness = Math.random() * 0.2;
+          
+          const gradient = ctx.createRadialGradient(x, y, 0, x, y, size);
+          gradient.addColorStop(0, `rgba(255, 255, 255, ${brightness})`);
+          gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+          
+          ctx.fillStyle = gradient;
+          ctx.fillRect(x - size, y - size, size * 2, size * 2);
+        }
+      } else if (type === 'gas') {
+        // Gas giant with bands
+        for (let y = 0; y < 512; y++) {
+          const wave = Math.sin(y * 0.02) * 10;
+          const wave2 = Math.sin(y * 0.05) * 5;
+          const opacity = (Math.sin(y * 0.015) + 1) * 0.15;
+          
+          ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+          ctx.fillRect(0, y + wave + wave2, 512, 1);
+          
+          ctx.fillStyle = `rgba(0, 0, 0, ${opacity * 0.5})`;
+          ctx.fillRect(0, y + wave - wave2, 512, 1);
+        }
+        
+        // Add storm spots
+        for (let i = 0; i < 15; i++) {
+          const x = Math.random() * 512;
+          const y = Math.random() * 512;
+          const size = Math.random() * 30 + 15;
+          
+          const gradient = ctx.createRadialGradient(x, y, 0, x, y, size);
+          gradient.addColorStop(0, 'rgba(255, 255, 255, 0.3)');
+          gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.1)');
+          gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+          
+          ctx.fillStyle = gradient;
+          ctx.beginPath();
+          ctx.ellipse(x, y, size * 1.5, size, Math.random() * Math.PI, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      } else if (type === 'ice') {
+        // Icy surface with cracks
+        for (let i = 0; i < 100; i++) {
+          const x = Math.random() * 512;
+          const y = Math.random() * 512;
+          const size = Math.random() * 25 + 10;
+          
+          const gradient = ctx.createRadialGradient(x, y, 0, x, y, size);
+          gradient.addColorStop(0, 'rgba(255, 255, 255, 0.4)');
+          gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+          
+          ctx.fillStyle = gradient;
+          ctx.fillRect(x - size, y - size, size * 2, size * 2);
+        }
+        
+        // Add ice cracks
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+        ctx.lineWidth = 1;
+        for (let i = 0; i < 50; i++) {
+          ctx.beginPath();
+          let x = Math.random() * 512;
+          let y = Math.random() * 512;
+          ctx.moveTo(x, y);
+          
+          for (let j = 0; j < 5; j++) {
+            x += (Math.random() - 0.5) * 40;
+            y += (Math.random() - 0.5) * 40;
+            ctx.lineTo(x, y);
+          }
+          ctx.stroke();
+        }
+      } else if (type === 'volcanic') {
+        // Volcanic surface with lava flows
+        for (let i = 0; i < 120; i++) {
+          const x = Math.random() * 512;
+          const y = Math.random() * 512;
+          const size = Math.random() * 20 + 5;
+          
+          const gradient = ctx.createRadialGradient(x, y, 0, x, y, size);
+          gradient.addColorStop(0, 'rgba(255, 100, 0, 0.5)');
+          gradient.addColorStop(0.5, 'rgba(200, 50, 0, 0.3)');
+          gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+          
+          ctx.fillStyle = gradient;
+          ctx.fillRect(x - size, y - size, size * 2, size * 2);
+        }
+        
+        // Dark volcanic areas
+        for (let i = 0; i < 80; i++) {
+          const x = Math.random() * 512;
+          const y = Math.random() * 512;
+          const size = Math.random() * 30 + 10;
+          
+          ctx.fillStyle = `rgba(0, 0, 0, ${Math.random() * 0.4 + 0.2})`;
+          ctx.beginPath();
+          ctx.arc(x, y, size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+      
+      // Add overall texture noise
+      const imageData = ctx.getImageData(0, 0, 512, 512);
+      const data = imageData.data;
+      for (let i = 0; i < data.length; i += 4) {
+        const noise = (Math.random() - 0.5) * 10;
+        data[i] += noise;     // R
+        data[i + 1] += noise; // G
+        data[i + 2] += noise; // B
+      }
+      ctx.putImageData(imageData, 0, 0);
+      
+      return new THREE.CanvasTexture(canvas);
+    }
+    
+    // CREATE REALISTIC BUMP/NORMAL MAPS
+    function createBumpMap(type) {
+      const canvas = document.createElement('canvas');
+      canvas.width = 512;
+      canvas.height = 512;
+      const ctx = canvas.getContext('2d');
+      
+      // Base gray
+      ctx.fillStyle = '#808080';
+      ctx.fillRect(0, 0, 512, 512);
+      
+      if (type === 'rocky' || type === 'volcanic') {
+        // Lots of elevation changes
+        for (let i = 0; i < 200; i++) {
+          const x = Math.random() * 512;
+          const y = Math.random() * 512;
+          const size = Math.random() * 15 + 5;
+          const brightness = Math.random() * 100 + 100;
+          
+          const gradient = ctx.createRadialGradient(x, y, 0, x, y, size);
+          gradient.addColorStop(0, `rgb(${brightness}, ${brightness}, ${brightness})`);
+          gradient.addColorStop(1, '#808080');
+          
+          ctx.fillStyle = gradient;
+          ctx.fillRect(x - size, y - size, size * 2, size * 2);
+        }
+      } else if (type === 'gas') {
+        // Smooth bands
+        for (let y = 0; y < 512; y++) {
+          const wave = Math.sin(y * 0.03) * 20;
+          const brightness = 128 + wave;
+          ctx.fillStyle = `rgb(${brightness}, ${brightness}, ${brightness})`;
+          ctx.fillRect(0, y, 512, 1);
+        }
+      }
+      
+      return new THREE.CanvasTexture(canvas);
+    }
+    
+    // CREATE CLOUD TEXTURE for gas planets
+    function createCloudTexture() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 512;
+      canvas.height = 512;
+      const ctx = canvas.getContext('2d');
+      
+      // Transparent base
+      ctx.clearRect(0, 0, 512, 512);
+      
+      // Draw wispy clouds
+      for (let i = 0; i < 100; i++) {
+        const x = Math.random() * 512;
+        const y = Math.random() * 512;
+        const size = Math.random() * 40 + 20;
+        const opacity = Math.random() * 0.3 + 0.1;
+        
+        const gradient = ctx.createRadialGradient(x, y, 0, x, y, size);
+        gradient.addColorStop(0, `rgba(255, 255, 255, ${opacity})`);
+        gradient.addColorStop(0.5, `rgba(255, 255, 255, ${opacity * 0.5})`);
+        gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+        
+        ctx.fillStyle = gradient;
+        ctx.fillRect(x - size, y - size, size * 2, size * 2);
+      }
+      
+      return new THREE.CanvasTexture(canvas);
+    }
+
+    // PLANET DATA with realistic types
     const planetData = [
       {
         name: "HAPPY",
@@ -785,6 +1001,7 @@ I LOVE YOU ❤️`
         size: 0.8,
         distance: 8,
         speed: 0.8,
+        type: 'volcanic', // Bright, energetic
         text: `When you are happy,
 the whole universe brightens.
 
@@ -800,6 +1017,7 @@ I love existing in the same orbit as your happiness.`
         size: 0.9,
         distance: 11,
         speed: 0.65,
+        type: 'ice', // Cool, serene
         text: `With you, everything slows down.
 
 You are my peaceful orbit,
@@ -815,6 +1033,7 @@ that the universe envies.`
         size: 0.75,
         distance: 14,
         speed: 1.2,
+        type: 'volcanic', // Hot, dynamic
         text: `Your excitement is magnetic,
 pulling in stardust and possibility.
 
@@ -830,6 +1049,7 @@ Energy like yours lights up worlds.`
         size: 1.0,
         distance: 17,
         speed: 0.5,
+        type: 'gas', // Soft, dreamy
         text: `I would find you in every galaxy,
 across infinite timelines.
 
@@ -845,6 +1065,7 @@ You are my celestial constant.`
         size: 0.7,
         distance: 20,
         speed: 0.9,
+        type: 'rocky', // Turbulent
         text: `When worry storms through you,
 remember you're not adrift.
 
@@ -860,6 +1081,7 @@ Together, we weather any turbulence.`
         size: 0.85,
         distance: 23,
         speed: 0.7,
+        type: 'gas', // Flowing, imaginative
         text: `Your imagination builds universes,
 paints nebulas with possibility.
 
@@ -875,6 +1097,7 @@ Create freely—I'm in awe of your cosmos.`
         size: 0.8,
         distance: 26,
         speed: 0.6,
+        type: 'rocky', // Solid, grounded
         text: `Gratitude is the light you carry,
 warming every space you enter.
 
@@ -890,6 +1113,7 @@ I'm grateful the universe brought us here.`
         size: 0.9,
         distance: 29,
         speed: 0.55,
+        type: 'volcanic', // Intense, stormy
         text: `If the weight of worlds feels too heavy,
 let me share the load.
 
@@ -956,13 +1180,21 @@ Together, we're stronger than any storm.`
     }
 
     planetData.forEach((data, index) => {
-      const geometry = new THREE.SphereGeometry(data.size, 64, 64);
+      const geometry = new THREE.SphereGeometry(data.size, 128, 128); // Higher resolution
+      
+      // Create realistic material with textures
+      const texture = createPlanetTexture(data.color, data.type);
+      const bumpMap = createBumpMap(data.type);
+      
       const material = new THREE.MeshStandardMaterial({
-        color: data.color,
+        map: texture,
+        bumpMap: bumpMap,
+        bumpScale: 0.05,
+        color: 0xffffff, // Let the texture provide color
         emissive: data.emissive,
-        emissiveIntensity: 0.4,
-        roughness: 0.6,
-        metalness: 0.3
+        emissiveIntensity: 0.3,
+        roughness: data.type === 'ice' ? 0.3 : (data.type === 'gas' ? 0.7 : 0.8),
+        metalness: data.type === 'ice' ? 0.2 : 0.1
       });
 
       const planet = new THREE.Mesh(geometry, material);
@@ -989,6 +1221,21 @@ Together, we're stronger than any storm.`
       const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
       planet.add(atmosphere);
       planet.userData.atmosphere = atmosphere;
+
+      // Add cloud layer for gas planets
+      if (data.type === 'gas') {
+        const cloudGeometry = new THREE.SphereGeometry(data.size * 1.05, 64, 64);
+        const cloudTexture = createCloudTexture();
+        const cloudMaterial = new THREE.MeshStandardMaterial({
+          map: cloudTexture,
+          transparent: true,
+          opacity: 0.4,
+          depthWrite: false
+        });
+        const clouds = new THREE.Mesh(cloudGeometry, cloudMaterial);
+        planet.add(clouds);
+        planet.userData.clouds = clouds;
+      }
 
       // Outer glow ring for hover effect
       const ringGeometry = new THREE.SphereGeometry(data.size * 1.3, 64, 64);
@@ -1206,6 +1453,11 @@ Together, we're stronger than any storm.`
 
         // Rotate planet
         planet.rotation.y += 0.005;
+        
+        // Rotate clouds at different speed for gas planets
+        if (data.clouds) {
+          data.clouds.rotation.y += 0.007;
+        }
 
         // Enhanced scale and glow for hovered or focused planets
         const isActive = planet === focusedPlanet || data.isHovered;
