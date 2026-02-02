@@ -374,9 +374,27 @@
     <p>The Sun now glows brighter, just for you</p>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://unpkg.com/three@0.128.0/build/three.min.js"></script>
   <script>
+    // Load OrbitControls after Three.js is loaded
+    const script = document.createElement('script');
+    script.src = 'https://unpkg.com/three@0.128.0/examples/js/controls/OrbitControls.js';
+    script.onload = initScene;
+    script.onerror = function() {
+      console.error('Failed to load OrbitControls');
+      // Fallback: still try to initialize without controls
+      initScene();
+    };
+    document.head.appendChild(script);
+    
+    function initScene() {
+    // Check if THREE is loaded
+    if (typeof THREE === 'undefined') {
+      console.error('THREE.js failed to load');
+      alert('Failed to load 3D library. Please refresh the page.');
+      return;
+    }
+    
     // Custom Cursor
     const cursor = document.getElementById('cursor');
     let mouseX = 0, mouseY = 0;
@@ -431,22 +449,52 @@
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-    // ORBIT CONTROLS - Enable 3D Navigation
-    const controls = new THREE.OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true; // Smooth movement
-    controls.dampingFactor = 0.05;
-    controls.screenSpacePanning = false;
-    controls.minDistance = 10; // Closest zoom
-    controls.maxDistance = 150; // Farthest zoom
-    controls.maxPolarAngle = Math.PI; // Allow viewing from any angle
-    controls.enablePan = true; // Allow panning
-    controls.panSpeed = 0.8;
-    controls.rotateSpeed = 0.6;
-    controls.zoomSpeed = 1.2;
-    
-    // Optional: Set auto-rotate for a gentle spin when idle
-    controls.autoRotate = false; // User can enable this if they want
-    controls.autoRotateSpeed = 0.5;
+    // ORBIT CONTROLS - Enable 3D Navigation with fallback
+    let controls;
+    if (typeof THREE.OrbitControls !== 'undefined') {
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true; // Smooth movement
+      controls.dampingFactor = 0.05;
+      controls.screenSpacePanning = false;
+      controls.minDistance = 10; // Closest zoom
+      controls.maxDistance = 150; // Farthest zoom
+      controls.maxPolarAngle = Math.PI; // Allow viewing from any angle
+      controls.enablePan = true; // Allow panning
+      controls.panSpeed = 0.8;
+      controls.rotateSpeed = 0.6;
+      controls.zoomSpeed = 1.2;
+      controls.autoRotate = false;
+      controls.autoRotateSpeed = 0.5;
+    } else {
+      console.warn('OrbitControls not available - using basic controls');
+      // Basic mouse controls as fallback
+      let isDragging = false;
+      let previousMousePosition = { x: 0, y: 0 };
+      
+      canvas.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        previousMousePosition = { x: e.clientX, y: e.clientY };
+      });
+      
+      canvas.addEventListener('mousemove', (e) => {
+        if (isDragging) {
+          const deltaX = e.clientX - previousMousePosition.x;
+          const deltaY = e.clientY - previousMousePosition.y;
+          camera.rotation.y += deltaX * 0.005;
+          camera.rotation.x += deltaY * 0.005;
+          previousMousePosition = { x: e.clientX, y: e.clientY };
+        }
+      });
+      
+      canvas.addEventListener('mouseup', () => {
+        isDragging = false;
+      });
+      
+      canvas.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        camera.position.z += e.deltaY * 0.05;
+      }, { passive: false });
+    }
 
     // LIGHTING
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.15);
@@ -1118,7 +1166,9 @@ Together, we're stronger than any storm.`
       time += 0.01;
 
       // Update controls for smooth damping
-      controls.update();
+      if (controls && controls.update) {
+        controls.update();
+      }
 
       // Rotate sun slowly
       sun.rotation.y += 0.001;
@@ -1212,12 +1262,16 @@ Together, we're stronger than any storm.`
           break;
         case 'r': // Reset view
           camera.position.set(0, 15, 45);
-          controls.target.set(0, 0, 0);
-          controls.update();
+          if (controls && controls.target) {
+            controls.target.set(0, 0, 0);
+            controls.update();
+          }
           break;
         case ' ': // Toggle auto-rotate
           e.preventDefault();
-          controls.autoRotate = !controls.autoRotate;
+          if (controls && controls.autoRotate !== undefined) {
+            controls.autoRotate = !controls.autoRotate;
+          }
           break;
       }
     });
@@ -1255,8 +1309,10 @@ Together, we're stronger than any storm.`
     };
     resetButton.onclick = () => {
       camera.position.set(0, 15, 45);
-      controls.target.set(0, 0, 0);
-      controls.update();
+      if (controls && controls.target) {
+        controls.target.set(0, 0, 0);
+        controls.update();
+      }
     };
     document.getElementById('spacePage').appendChild(resetButton);
 
@@ -1266,6 +1322,8 @@ Together, we're stronger than any storm.`
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
+    
+    } // End of initScene function
   </script>
 </body>
 </html>
