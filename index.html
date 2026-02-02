@@ -280,6 +280,187 @@
       margin-bottom: 15px;
     }
 
+    /* Meteor Shower Finale */
+    .meteor-shower-announcement {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, rgba(255, 215, 0, 0.15), transparent);
+      padding: 50px;
+      border-radius: 30px;
+      text-align: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease;
+    }
+
+    .meteor-shower-announcement.show {
+      opacity: 1;
+      animation: announcementPulse 2s ease-in-out;
+    }
+
+    @keyframes announcementPulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); }
+      50% { transform: translate(-50%, -50%) scale(1.1); }
+    }
+
+    .meteor-shower-announcement h2 {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 2.5rem;
+      color: #ffd700;
+      margin-bottom: 20px;
+      text-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+    }
+
+    .meteor-shower-announcement p {
+      font-family: 'Crimson Text', serif;
+      font-size: 1.5rem;
+      color: #ffffff;
+      font-style: italic;
+    }
+
+    /* Meteor styles */
+    .meteor {
+      position: fixed;
+      pointer-events: none;
+      z-index: 500;
+    }
+
+    .meteor-trail {
+      position: absolute;
+      width: 200px;
+      height: 3px;
+      background: linear-gradient(to right, rgba(255, 255, 255, 0.9), rgba(255, 235, 59, 0.6), transparent);
+      box-shadow: 0 0 10px rgba(255, 235, 59, 0.8);
+      transform-origin: left center;
+    }
+
+    .meteor-head {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: radial-gradient(circle, #ffffff, #ffeb3b);
+      border-radius: 50%;
+      box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.8),
+                  0 0 40px 10px rgba(255, 235, 59, 0.6);
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .meteor-word {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Libre Baskerville', serif;
+      font-size: 2rem;
+      font-weight: bold;
+      color: #ffffff;
+      text-shadow: 
+        0 0 10px rgba(255, 235, 59, 1),
+        0 0 20px rgba(255, 193, 7, 0.8),
+        0 0 30px rgba(255, 152, 0, 0.6);
+      white-space: nowrap;
+      animation: wordGlow 1s ease-in-out infinite alternate;
+    }
+
+    @keyframes wordGlow {
+      0% { 
+        text-shadow: 
+          0 0 10px rgba(255, 235, 59, 1),
+          0 0 20px rgba(255, 193, 7, 0.8),
+          0 0 30px rgba(255, 152, 0, 0.6);
+      }
+      100% { 
+        text-shadow: 
+          0 0 20px rgba(255, 235, 59, 1),
+          0 0 40px rgba(255, 193, 7, 1),
+          0 0 60px rgba(255, 152, 0, 0.8);
+      }
+    }
+
+    @keyframes meteorFall {
+      0% {
+        opacity: 0;
+        transform: translate(0, 0) rotate(-45deg);
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-600px, 600px) rotate(-45deg);
+      }
+    }
+
+    /* Final Message After Meteor Shower */
+    .finale-message {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.8);
+      background: radial-gradient(ellipse at center, rgba(15, 10, 30, 0.98), rgba(0, 0, 0, 1));
+      backdrop-filter: blur(30px);
+      border: 4px solid rgba(255, 215, 0, 0.8);
+      border-radius: 30px;
+      padding: 60px;
+      max-width: 700px;
+      text-align: center;
+      z-index: 10002;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+      box-shadow: 0 0 80px rgba(255, 215, 0, 0.6);
+    }
+
+    .finale-message.show {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .finale-message h2 {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 3rem;
+      color: #ffd700;
+      margin-bottom: 30px;
+      text-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+      animation: cardTitleFloat 3s ease-in-out infinite;
+    }
+
+    .finale-message p {
+      font-family: 'Crimson Text', serif;
+      font-size: 1.5rem;
+      line-height: 2.2;
+      color: #ffffff;
+      margin-bottom: 40px;
+      white-space: pre-line;
+    }
+
+    .finale-message button {
+      padding: 18px 45px;
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(255, 140, 0, 0.3));
+      border: 3px solid rgba(255, 215, 0, 0.6);
+      border-radius: 35px;
+      color: #ffd700;
+      font-size: 1.3rem;
+      font-family: 'Libre Baskerville', serif;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .finale-message button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 10px 40px rgba(255, 215, 0, 0.5);
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.4), rgba(255, 140, 0, 0.4));
+    }
+
     /* Easter Egg - Shooting Stars */
     .shooting-star {
       position: fixed;
@@ -357,19 +538,20 @@
       bottom: 80px;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(10, 5, 30, 0.9);
+      background: rgba(10, 5, 30, 0.95);
       backdrop-filter: blur(20px);
-      border: 2px solid rgba(255, 215, 0, 0.5);
-      border-radius: 20px;
-      padding: 15px 30px;
+      border: 3px solid rgba(255, 215, 0, 0.7);
+      border-radius: 25px;
+      padding: 20px 40px;
       color: #ffd700;
-      font-size: 1rem;
+      font-size: 1.2rem;
       font-family: 'Crimson Text', serif;
       z-index: 999;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.5s ease;
       text-align: center;
+      box-shadow: 0 0 40px rgba(255, 215, 0, 0.4);
     }
 
     .easter-egg-hint.show {
@@ -430,6 +612,37 @@
         font-size: 0.9rem;
         padding: 12px 20px;
       }
+
+      .meteor-word {
+        font-size: 1.3rem;
+      }
+
+      .meteor-shower-announcement h2 {
+        font-size: 1.8rem;
+      }
+
+      .meteor-shower-announcement p {
+        font-size: 1.2rem;
+      }
+
+      .finale-message {
+        padding: 40px 30px;
+        max-width: 90%;
+      }
+
+      .finale-message h2 {
+        font-size: 2rem;
+      }
+
+      .finale-message p {
+        font-size: 1.1rem;
+        line-height: 1.8;
+      }
+
+      .finale-message button {
+        font-size: 1.1rem;
+        padding: 15px 35px;
+      }
     }
   </style>
 </head>
@@ -468,6 +681,29 @@
   <div class="final-unlock" id="finalUnlock">
     <h3>✨ All Planets Discovered ✨</h3>
     <p>The Sun now glows brighter, just for you</p>
+  </div>
+
+  <!-- Meteor Shower Finale -->
+  <div class="meteor-shower-announcement" id="meteorAnnouncement">
+    <h2>🌠 Preparing Something Special 🌠</h2>
+    <p>Watch the sky...</p>
+  </div>
+
+  <!-- Finale Message -->
+  <div class="finale-message" id="finaleMessage">
+    <h2>💫 HRITU 💫</h2>
+    <p>Every meteor that fell was a moment
+I fell deeper in love with you.
+
+You are my universe, my infinity,
+my forever.
+
+Thank you for letting me orbit your heart.
+
+I LOVE YOU MORE THAN ALL THE STARS ✨
+
+- SONY</p>
+    <button id="closeFinale">Forever Yours 💛</button>
   </div>
 
   <!-- Easter Egg Hint -->
@@ -1362,6 +1598,108 @@ Together, we're stronger than any storm.`
       scene.add(planet);
     });
 
+    // METEOR SHOWER FINALE
+    const meteorAnnouncement = document.getElementById('meteorAnnouncement');
+    const finaleMessage = document.getElementById('finaleMessage');
+    
+    function startMeteorShower() {
+      // Show announcement
+      meteorAnnouncement.classList.add('show');
+      
+      setTimeout(() => {
+        meteorAnnouncement.classList.remove('show');
+        
+        // Start the meteor shower
+        setTimeout(() => {
+          launchMeteorShower();
+        }, 500);
+      }, 2500);
+    }
+    
+    function launchMeteorShower() {
+      const words = [
+        'I', 'LOVE', 'YOU', 'FOREVER', 'HRITU',
+        'MY', 'UNIVERSE', 'ALWAYS', 'INFINITE', 'LOVE',
+        'YOU', 'ARE', 'MY', 'EVERYTHING', '❤️',
+        'FOREVER', 'YOURS', 'SONY', '✨', 'TOGETHER'
+      ];
+      
+      let meteorCount = 0;
+      const totalMeteors = words.length;
+      
+      const meteorInterval = setInterval(() => {
+        if (meteorCount >= totalMeteors) {
+          clearInterval(meteorInterval);
+          // Show finale message after all meteors
+          setTimeout(() => {
+            finaleMessage.classList.add('show');
+          }, 2000);
+          return;
+        }
+        
+        createMeteor(words[meteorCount]);
+        meteorCount++;
+      }, 400); // Meteor every 400ms
+    }
+    
+    function createMeteor(word) {
+      const meteor = document.createElement('div');
+      meteor.className = 'meteor';
+      
+      const trail = document.createElement('div');
+      trail.className = 'meteor-trail';
+      
+      const head = document.createElement('div');
+      head.className = 'meteor-head';
+      
+      const wordElement = document.createElement('div');
+      wordElement.className = 'meteor-word';
+      wordElement.textContent = word;
+      
+      meteor.appendChild(trail);
+      meteor.appendChild(head);
+      meteor.appendChild(wordElement);
+      
+      // Random starting position along top and right edges
+      const startSide = Math.random() > 0.6 ? 'top' : 'right';
+      if (startSide === 'top') {
+        meteor.style.left = (Math.random() * (window.innerWidth - 200)) + 'px';
+        meteor.style.top = '-50px';
+      } else {
+        meteor.style.left = (window.innerWidth + 50) + 'px';
+        meteor.style.top = (Math.random() * (window.innerHeight * 0.7)) + 'px';
+      }
+      
+      document.body.appendChild(meteor);
+      
+      // Animate
+      const duration = 3 + Math.random() * 2; // 3-5 seconds
+      meteor.style.animation = `meteorFall ${duration}s ease-out forwards`;
+      
+      // Remove after animation
+      setTimeout(() => {
+        meteor.remove();
+      }, duration * 1000);
+    }
+    
+    // Close finale message
+    document.addEventListener('DOMContentLoaded', () => {
+      const closeFinaleBtn = document.getElementById('closeFinale');
+      if (closeFinaleBtn) {
+        closeFinaleBtn.addEventListener('mouseenter', () => {
+          cursor.classList.add('hovering');
+        });
+        
+        closeFinaleBtn.addEventListener('mouseleave', () => {
+          cursor.classList.remove('hovering');
+        });
+        
+        closeFinaleBtn.addEventListener('click', () => {
+          finaleMessage.classList.remove('show');
+        });
+      }
+    });
+
     // INTERACTION
     let focusedPlanet = null;
     let hoveredPlanet = null;
@@ -1636,8 +1974,8 @@ Together, we're stronger than any storm.`
               sunGlow.material.uniforms.intensity.value *= 1.5;
               setTimeout(() => {
                 finalUnlock.classList.remove('show');
-                // Start shooting stars easter egg after final unlock
-                setTimeout(() => startShootingStars(), 1000);
+                // Start meteor shower finale
+                setTimeout(() => startMeteorShower(), 1000);
               }, 3000);
             }, 1000);
           }
@@ -1687,7 +2025,8 @@ Together, we're stronger than any storm.`
               sunGlow.material.uniforms.intensity.value *= 1.5;
               setTimeout(() => {
                 finalUnlock.classList.remove('show');
-                setTimeout(() => startShootingStars(), 1000);
+                // Start meteor shower finale
+                setTimeout(() => startMeteorShower(), 1000);
               }, 3000);
             }, 1000);
           }
