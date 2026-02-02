@@ -127,27 +127,8 @@
       font-size: 1.4rem;
       line-height: 2;
       opacity: 0.9;
-      margin-bottom: 35px;
+      margin-bottom: 50px;
       font-style: italic;
-    }
-
-    .instruction {
-      display: inline-block;
-      padding: 12px 28px;
-      background: rgba(255, 215, 0, 0.08);
-      border: 1px solid rgba(255, 215, 0, 0.25);
-      border-radius: 25px;
-      font-size: 1.05rem;
-      color: #ffd700;
-      margin-bottom: 40px;
-      font-style: normal;
-      letter-spacing: 0.5px;
-      animation: instructionPulse 3s ease-in-out infinite;
-    }
-
-    @keyframes instructionPulse {
-      0%, 100% { transform: translateY(0); opacity: 0.85; }
-      50% { transform: translateY(-3px); opacity: 1; }
     }
 
     #enter {
@@ -531,12 +512,114 @@
 
     /* Responsive */
     @media (max-width: 768px) {
-      .landing-inner h1 { font-size: 3rem; }
-      .landing-inner p { font-size: 1.1rem; }
-      #card h2 { font-size: 2.2rem; }
-      #card p { font-size: 1.1rem; }
-      .system-info, .legend { max-width: 250px; font-size: 0.85rem; }
-      .controls-guide { flex-direction: column; gap: 10px; }
+      body {
+        cursor: auto;
+      }
+      
+      #cursor {
+        display: none;
+      }
+      
+      .landing-inner h1 { 
+        font-size: 2.5rem;
+      }
+      
+      .landing-inner p { 
+        font-size: 1rem;
+        line-height: 1.6;
+      }
+      
+      #enter {
+        font-size: 1rem;
+        padding: 14px 36px;
+      }
+      
+      #card h2 { 
+        font-size: 1.8rem;
+        letter-spacing: 1px;
+      }
+      
+      #card p { 
+        font-size: 1rem;
+        line-height: 1.8;
+        padding: 0 10px;
+      }
+      
+      #close {
+        top: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+        font-size: 1.4rem;
+      }
+      
+      .system-info, .legend { 
+        max-width: 200px; 
+        font-size: 0.75rem;
+        padding: 15px;
+        top: 15px;
+      }
+      
+      .system-info {
+        left: 15px;
+      }
+      
+      .legend {
+        right: 15px;
+      }
+      
+      .system-info h3,
+      .legend h4 {
+        font-size: 0.95rem;
+        margin-bottom: 8px;
+      }
+      
+      .controls-guide { 
+        flex-direction: column; 
+        gap: 8px;
+        padding: 10px 20px;
+        bottom: 15px;
+        font-size: 0.75rem;
+      }
+      
+      .control-item {
+        font-size: 0.75rem;
+      }
+      
+      .control-icon {
+        width: 24px;
+        height: 24px;
+        font-size: 0.75rem;
+      }
+      
+      .hint {
+        font-size: 0.9rem;
+        bottom: 90px;
+        padding: 0 20px;
+      }
+      
+      .help-toggle {
+        top: auto;
+        bottom: 15px;
+        right: 15px;
+        transform: none;
+        width: 40px;
+        height: 40px;
+      }
+      
+      .help-toggle:hover {
+        transform: scale(1.1);
+      }
+      
+      .nav-help {
+        width: 280px;
+        font-size: 0.85rem;
+        padding: 15px;
+      }
+      
+      .nav-help.show {
+        right: 15px;
+      }
     }
   </style>
 </head>
@@ -555,9 +638,6 @@
         Eight planets, each holding a piece of my heart,<br />
         orbiting around the warmth of everything I feel.
       </p>
-      <div class="instruction">
-        ✨ Click on each planet to discover the emotions within
-      </div>
       <button id="enter">Enter the System</button>
     </div>
   </section>
